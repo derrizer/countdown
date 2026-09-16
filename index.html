@@ -54,7 +54,7 @@
         .noscript {
             font-size: 2.5vw;
             color: #d32f2f;
-            font-weight: 800;
+            font-weight: 700;
             text-align: center;
             padding: 0 16px;
         }
@@ -76,7 +76,7 @@
 </head>
 <body>
     <div id="countdown">00:00:00:00</div>
-    <div class="target-date">MM/DD/YYYY HH:MM</div>
+    <div class="target-date">MM/DD/YYYY HH:MM:SS</div>
 
     <noscript>
         <div class="noscript">
@@ -185,19 +185,20 @@
             const year = targetDate.getFullYear();
             const hours = String(targetDate.getHours()).padStart(2, "0");
             const minutes = String(targetDate.getMinutes()).padStart(2, "0");
+            const seconds = String(targetDate.getSeconds()).padStart(2, "0");
 
             let formattedDate;
 
             switch (settings.format) {
                 case "2":
-                    formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+                    formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
                     break;
                 case "3":
-                    formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+                    formattedDate = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
                     break;
                 case "1":
                 default:
-                    formattedDate = `${month}/${day}/${year} ${hours}:${minutes}`;
+                    formattedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
                     break;
             }
 
