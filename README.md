@@ -13,7 +13,7 @@ A countdown timer built with HTML, CSS, and JavaScript. It displays the remainin
 | `date` (also `target`, `end`) | string | `2026-06-13T19:00:00` | Target date and time. Format: `YYYY-MM-DDTHH:MM:SS` (local time). |
 | `name` (also `title`) | string | `Countdown` | Text shown in the tab title. |
 | `timesup` (also `timesUp`, `endText`) | string | `Time's up` | Text shown when the countdown reaches zero. |
-| `format` | `1`, `2` or `3` | `1` | The format used to display the target date. `1`: `MM/DD/YYYY HH:MM:SS`; `2`: `DD/MM/YYYY HH:MM:SS`; `3`: `DD.MM.YYYY HH:MM:SS`. |
+| `format` | `1`, `2`, `3` or `4` | `1` | The format used to display the target date. `1`: `MM/DD/YYYY HH:MM:SS`; `2`: `DD/MM/YYYY HH:MM:SS`; `3`: `DD.MM.YYYY HH:MM:SS`; `4`: `DD-MM-YYYY HH:MM:SS`. |
 | `dark` | `true`, `false`, `1` or empty | false | Enable dark mode. `true`, `1`, empty - dark mode on. `false` - dark mode off. |
 
 Examples:
