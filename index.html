@@ -108,7 +108,7 @@
             }
 
             let formatValue = DEFAULTS.format;
-            if (formatParam === "1" || formatParam === "2" || formatParam === "3") {
+            if (formatParam === "1" || formatParam === "2" || formatParam === "3" || formatParam === "4") {
                 formatValue = formatParam;
             }
 
@@ -195,6 +195,9 @@
                     break;
                 case "3":
                     formattedDate = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+                    break;
+                case "4":
+                    formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
                     break;
                 case "1":
                 default:
