@@ -25,11 +25,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        body.dark {
-            background-color: #000;
-            color: #fff;
-        }
-
         #countdown {
             font-size: 10vw;
             margin-bottom: 1vw;
@@ -45,10 +40,6 @@
             font-weight: 600;
             text-align: center;
             padding: 0 16px;
-        }
-
-        body.dark .target-date {
-            color: #a0a0a0;
         }
 
         .noscript {
@@ -89,23 +80,39 @@
             name: "Countdown",
             timesUp: "Time's up",
             date: "2026-06-13T19:00:00",
-            dark: false,
             format: "1"
         };
 
         function getUrlParams() {
+
+            function checkDark() {
+                const url = new URL(window.location.href);
+                const params = new URLSearchParams(window.location.search);
+
+                const darkParam = params.get("dark");
+
+                if(darkParam === "true" || darkParam === "1" || darkParam === "") {
+                    url.searchParams.delete('dark');
+
+                    url.searchParams.set('backgroundcolor', '000');
+                    url.searchParams.set('maincolor', 'fff');
+                    url.searchParams.set('targetdatecolor', 'a0a0a0');
+
+                    history.replaceState(null, '', url.toString());
+                }
+            }
+
+            checkDark();
+    
             const params = new URLSearchParams(window.location.search);
 
             const dateParam = params.get("date") || params.get("target") || params.get("end");
             const nameParam = params.get("name") || params.get("title");
             const timesUpParam = params.get("timesup") || params.get("timesUp") || params.get("endText");
-            const darkParam = params.get("dark");
             const formatParam = params.get("format");
-
-            let darkValue = DEFAULTS.dark;
-            if (darkParam !== null) {
-                darkValue = darkParam === "true" || darkParam === "1" || darkParam === "";
-            }
+            const backgroundcolorParam = params.get("backgroundcolor") || params.get("bgc") || params.get("background");
+            const maincolorParam = params.get("maincolor") || params.get("mc") || params.get("main");
+            const targetdatecolorParam = params.get("targetdatecolor") || params.get("tdc") || params.get("targetcolor");
 
             let formatValue = DEFAULTS.format;
             if (formatParam === "1" || formatParam === "2" || formatParam === "3" || formatParam === "4") {
@@ -116,8 +123,10 @@
                 date: dateParam || DEFAULTS.date,
                 name: nameParam || DEFAULTS.name,
                 timesUp: timesUpParam || DEFAULTS.timesUp,
-                dark: darkValue,
-                format: formatValue
+                format: formatValue,
+                backgroundcolor: backgroundcolorParam,
+                maincolor: maincolorParam,
+                targetdatecolor: targetdatecolorParam
             };
         }
 
@@ -135,14 +144,46 @@
             return date;
         }
 
-        function applyTheme(isDark) {
-            document.body.classList.toggle("dark", isDark);
+        function parseHexColor(hex) {
+            if (!hex || typeof hex !== "string") return null;
+            let c = hex.trim().replace("#", "");
+            if (c.length === 3) {
+                c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+            }
+            if (!/^[0-9a-fA-F]{6}$/.test(c)) return null;
+            return "#" + c.toLowerCase();
+        }
+
+        function applyColors({ backgroundcolor, maincolor, targetdatecolor }) {
+            const bg = parseHexColor(backgroundcolor);
+            const mc = parseHexColor(maincolor);
+            const tdc = parseHexColor(targetdatecolor);
+
+            if (bg) {
+                document.body.style.backgroundColor = bg;
+            } else {
+                document.body.style.removeProperty("background-color");
+            }
+
+            if (mc) {
+                document.body.style.color = mc;
+            } else {
+                document.body.style.removeProperty("color");
+            }
+
+            const targetEl = document.querySelector(".target-date");
+            if (targetEl) {
+                if (tdc) {
+                    targetEl.style.color = tdc;
+                } else {
+                    targetEl.style.removeProperty("color");
+                }
+            }
         }
 
         const settings = getUrlParams();
         const targetDate = parseDate(settings.date) || parseDate(DEFAULTS.date);
-
-        applyTheme(settings.dark);
+        applyColors(settings);
 
         function updateCountdown() {
             const now = new Date();
