@@ -115,7 +115,7 @@
             const targetdatecolorParam = params.get("targetdatecolor") || params.get("tdc") || params.get("targetcolor");
 
             let formatValue = DEFAULTS.format;
-            if (formatParam === "1" || formatParam === "2" || formatParam === "3" || formatParam === "4") {
+            if (formatParam === "1" || formatParam === "2" || formatParam === "3" || formatParam === "4" || formatParam === "none") {
                 formatValue = formatParam;
             }
 
@@ -240,6 +240,9 @@
                 case "4":
                     formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
                     break;
+                case "none":
+                    document.querySelector(".target-date").style.display = "none";
+                    return;
                 case "1":
                 default:
                     formattedDate = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
